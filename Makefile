@@ -39,6 +39,17 @@ CONFIGURE_VARS += ac_cv_file__proc_self_stat=yes
 TARGET_CXXFLAGS += -std=c++0x
 MAKE_FLAGS += EXTRA_CXXFLAGS="-I$(STAGING_DIR)/usr/include"
 
+define Package/fish/postinst
+#!/bin/sh
+grep fish $${IPKG_INSTROOT}/etc/shells || \
+    echo "/usr/bin/fish" >> $${IPKG_INSTROOT}/etc/shells
+
+    # Backwards compatibility
+    if [[ -e /bin/fish ]] && ([[ ! -L /bin/fish ]] || [[ "$(readlink -fn $${IPKG_INSTROOT}/bin/fish)" != "../$(CONFIGURE_PREFIX)/bin/fish" ]]); then
+        ln -fs "../$(CONFIGURE_PREFIX)/bin/fish" "$${IPKG_INSTROOT}/bin/fish"
+    fi
+endef
+
 define Package/fish/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(CP) $(PKG_INSTALL_DIR)/usr/bin/* $(1)/usr/bin
@@ -51,6 +62,10 @@ define Package/fish/install
 	rm -rf $(1)/usr/share/fish/groff
 	rm -rf $(1)/usr/share/fish/man
 	rm -rf $(1)/usr/share/fish/tools
+endef
+
+define Package/fish/postrm
+	rm -rf "$${IPKG_INSTROOT}/$(CONFIGURE_PREFIX)/share/fish/$(PKG_VERSION)"
 endef
 
 $(eval $(call BuildPackage,fish))
