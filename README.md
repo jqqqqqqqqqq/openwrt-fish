@@ -1,5 +1,7 @@
 # openwrt-fish
 
+This is a port of fish shell, the friendly interactive shell to Openwrt. This repo derived from [entware-ng-rtndev](https://github.com/Entware/entware-ng-rtndev/tree/master/fish).
+
 ## compile from source
 
 ```bash
