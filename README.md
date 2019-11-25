@@ -2,6 +2,23 @@
 
 This is a port of fish shell, the friendly interactive shell to Openwrt. This repo derived from [entware-ng-rtndev](https://github.com/Entware/entware-ng-rtndev/tree/master/fish).
 
+## Deprecation warning
+
+This package has been merged since a long time ago, please use `fish` package in offical repo (might be available since 19.07) or build using official SDKs.
+
+To install fish from offical repo, do:
+
+Download correspoinding SDK, and extract.
+
+Install build dependencies.
+
+```bash
+cd <SDK path>
+./feeds/update -a
+./feeds/install fish
+make package/fish/compile
+```
+
 ## compile from source
 
 ```bash
